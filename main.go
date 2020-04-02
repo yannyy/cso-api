@@ -28,14 +28,14 @@ func (s *Server) Message(ctx *bctx.Context) {
 func main() {
 	// Create service
 	service := web.NewService(
-		web.Name("cso.api-gateway"),
+		web.Name("api-gateway"),
 	)
 
 	service.Init()
 
 	// Create RESTful handler
 	server := new(Server)
-	server.AuthBackend = auth.NewAuthService("cso.auth", client.DefaultClient)
+	server.AuthBackend = auth.NewAuthService("auth", client.DefaultClient)
 
 	beego.Get("/message", server.Message)
 
