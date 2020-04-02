@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	auth "cso/auth/proto"
 	"log"
 
@@ -15,7 +16,13 @@ type Server struct {
 }
 
 func (s *Server) Message(ctx *bctx.Context) {
-	ctx.Output.JSON("abc", false, true)
+	resp, err := s.AuthBackend.Message(context.TODO(), &auth.Empty{})
+	if err != nil {
+		ctx.Output.SetStatus(500)
+		ctx.Output.JSON(err, false, true)
+	}
+	log.Println(resp)
+	ctx.Output.JSON(resp.Message, false, true)
 }
 
 func main() {
