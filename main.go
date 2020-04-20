@@ -1,29 +1,11 @@
 package main
 
 import (
-	"context"
-	auth "cso/auth/proto"
 	"log"
 
 	"github.com/astaxie/beego"
-	bctx "github.com/astaxie/beego/context"
-	"github.com/micro/go-micro/client"
-	"github.com/micro/go-micro/web"
+	"github.com/micro/go-micro/v2/web"
 )
-
-type Server struct {
-	AuthBackend auth.AuthService
-}
-
-func (s *Server) Message(ctx *bctx.Context) {
-	resp, err := s.AuthBackend.Message(context.TODO(), &auth.Empty{})
-	if err != nil {
-		ctx.Output.SetStatus(500)
-		ctx.Output.JSON(err, false, true)
-	}
-	log.Println(resp)
-	ctx.Output.JSON(resp.Message, false, true)
-}
 
 func main() {
 	// Create service
@@ -32,12 +14,6 @@ func main() {
 	)
 
 	service.Init()
-
-	// Create RESTful handler
-	server := new(Server)
-	server.AuthBackend = auth.NewAuthService("auth", client.DefaultClient)
-
-	beego.Get("/message", server.Message)
 
 	// Register Handler
 	service.Handle("/", beego.BeeApp.Handlers)
