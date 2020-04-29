@@ -4,7 +4,6 @@ import (
 	"context"
 	"cso/api-gateway/backend"
 	"fmt"
-	"log"
 
 	"github.com/astaxie/beego"
 )
@@ -28,8 +27,9 @@ func (this *MessageController) Token() {
 	if err != nil {
 		fmt.Printf("%+v", err)
 	}
-	log.Println("====", resp)
+	token := resp.Token
+	token = fmt.Sprintf("%s-v2", token)
 
-	this.Data["json"] = "{\"Token\":\"" + resp.Token + "\"}"
+	this.Data["json"] = "{\"Token\":\"" + token + "\"}"
 	this.ServeJSON()
 }
