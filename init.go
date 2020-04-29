@@ -9,6 +9,7 @@ import (
 
 func init() {
 	beego.Router("/message", &controller.MessageController{}, "*:Message")
+	beego.Router("/token/:username", &controller.MessageController{}, "*:Token")
 	beego.Router("/resources/company", &controller.CompanyController{})
 	beego.Router("/", &controller.IndexController{})
 }

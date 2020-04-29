@@ -18,3 +18,13 @@ func Message(ctx context.Context) (*auth.Response, error) {
 	}
 	return resp, nil
 }
+
+func Token(ctx context.Context, username string) (*auth.TokenResponse, error) {
+	resp, err := newAuthService().Token(context.TODO(), &auth.TokenRequest{
+		Username: username,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return resp, nil
+}
